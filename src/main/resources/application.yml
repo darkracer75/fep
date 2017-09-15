@@ -1,0 +1,18 @@
+spring.profiles.active: local
+logging:
+  level:
+    root: info
+#    io.netty: debug
+    com.em: debug
+
+---
+spring.profiles: local
+fep.server.port : 5201
+
+---
+spring.profiles: dev
+fep.server.port : 5101
+
+---
+spring.profiles: real
+fep.server.port : 5001
