@@ -1,18 +1,21 @@
-package com.em.fep.codec;
+package com.em.fep.protocol.bc.server;
 
+import com.em.fep.protocol.FepMessageHeader;
+import com.em.fep.protocol.bc.BCMessageHeader;
+import com.em.fep.protocol.FepReceiveMessage;
 import io.netty.buffer.ByteBuf;
 import lombok.ToString;
 
 import java.nio.charset.Charset;
 
 @ToString
-public class FepMessage620 implements  FepRequest {
+public class FepMessage620 implements FepReceiveMessage {
 
-    private PacketHeader header;
+    private BCMessageHeader header;
     private int blockNo;
     private int sequenceNo;
 
-    @Override
+
     public void parseBody(ByteBuf body) {
 
         String bodyStr = body.readBytes(7).toString(Charset.defaultCharset());
@@ -21,12 +24,12 @@ public class FepMessage620 implements  FepRequest {
         sequenceNo = Integer.valueOf(bodyStr.substring(4, 7));
     }
 
-    public void setHeader(PacketHeader header) {
-        this.header = header;
+    public void setHeader(FepMessageHeader header) {
+        this.header = (BCMessageHeader) header;
     }
 
-    @Override
-    public PacketHeader getHeader() {
+
+    public FepMessageHeader getHeader() {
         return header;
     }
 

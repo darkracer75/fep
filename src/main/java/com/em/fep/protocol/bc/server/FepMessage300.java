@@ -1,24 +1,27 @@
-package com.em.fep.codec;
+package com.em.fep.protocol.bc.server;
 
+import com.em.fep.protocol.FepMessageHeader;
+import com.em.fep.protocol.bc.BCMessageHeader;
+import com.em.fep.protocol.FepSendMessage;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 @ToString
-public class FepMessage300 implements FepResponse {
+public class FepMessage300 implements FepSendMessage {
 
-    private PacketHeader header;
+    private BCMessageHeader header;
     private int blockNo;
     private int sequenceNo;
     private int missingCnt;
     private char[] missingBit;
 
 
-    public void setHeader(PacketHeader header) {
-        this.header = header;
+    public void setHeader(FepMessageHeader header) {
+        this.header = (BCMessageHeader) header;
     }
 
     @Override
-    public PacketHeader getHeader() {
+    public FepMessageHeader getHeader() {
         return header;
     }
 
@@ -61,6 +64,6 @@ public class FepMessage300 implements FepResponse {
     }
 
     public int length() {
-        return PacketHeader.HEADER_LENGTH + 4 + 3 + 3 + (missingBit != null ? missingBit.length : 0);
+        return BCMessageHeader.HEADER_LENGTH + 3 + 3 + (missingBit != null ? missingBit.length : 0);
     }
 }

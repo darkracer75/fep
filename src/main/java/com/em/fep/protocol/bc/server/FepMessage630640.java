@@ -1,5 +1,9 @@
-package com.em.fep.codec;
+package com.em.fep.protocol.bc.server;
 
+import com.em.fep.protocol.FepMessageHeader;
+import com.em.fep.protocol.bc.BCMessageHeader;
+import com.em.fep.protocol.FepReceiveMessage;
+import com.em.fep.protocol.FepSendMessage;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,14 +15,13 @@ import java.nio.charset.Charset;
 @Getter
 @Setter
 @ToString
-public class FepMessage630640 implements  FepRequest , FepResponse {
+public class FepMessage630640 implements FepReceiveMessage, FepSendMessage {
 
-    private PacketHeader header;
+    private BCMessageHeader header;
     private String fileName;
     private long fileSize;
     private int byteLength;
 
-    @Override
     public void parseBody(ByteBuf body) {
 
         String bodyStr = body.toString(Charset.defaultCharset());
@@ -28,11 +31,10 @@ public class FepMessage630640 implements  FepRequest , FepResponse {
         byteLength = Integer.valueOf(bodyStr.substring(20, 24));
     }
 
-    public void setHeader(PacketHeader header) {
-        this.header = header;
+    public void setHeader(FepMessageHeader header) {
+        this.header = (BCMessageHeader) header;
     }
 
-    @Override
     public byte[] toByteArray() {
 
         StringBuffer s = new StringBuffer();
